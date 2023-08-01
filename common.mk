@@ -376,6 +376,9 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 PRODUCT_PACKAGES += \
     qcrilNrDb_vendor
+else
+PRODUCT_PACKAGES += \
+    RemoveTelephonyPackages
 endif
 
 # Secure element
