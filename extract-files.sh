@@ -77,6 +77,9 @@ function blob_fixup() {
             "${PATCHELF}" --add-needed "libutils-v32.so" "${2}"
             "${PATCHELF}" --add-needed "libutils-shim.so" "${2}"
             ;;
+        vendor/etc/audio/*/mixer_paths_overlay_static.xml)
+            sed -i "/TL-handset.txt/d" "${2}"
+            ;;
         vendor/etc/camera/*_motiontuning.xml)
             sed -i 's/xml=version/xml\ version/g' "${2}"
             ;;
@@ -106,6 +109,8 @@ if [ -z "${ONLY_TARGET}" ]; then
     setup_vendor "${DEVICE_COMMON}" "${VENDOR_COMMON:-$VENDOR}" "${ANDROID_ROOT}" true "${CLEAN_VENDOR}"
 
     extract "${MY_DIR}/proprietary-files.txt" "${SRC}" "${KANG}" --section "${SECTION}"
+    extract "${MY_DIR}/proprietary-files-nfc.txt" "${SRC}" "${KANG}" --section "${SECTION}"
+    extract "${MY_DIR}/proprietary-files-phone.txt" "${SRC}" "${KANG}" --section "${SECTION}"
 fi
 
 if [ -z "${ONLY_COMMON}" ] && [ -s "${MY_DIR}/../../${VENDOR}/${DEVICE}/proprietary-files.txt" ]; then

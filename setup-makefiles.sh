@@ -90,10 +90,19 @@ function lib_to_package_fixup() {
 setup_vendor "${DEVICE_COMMON}" "${VENDOR_COMMON:-$VENDOR}" "${ANDROID_ROOT}" true
 
 # Warning headers and guards
-write_headers "cupid diting marble"
+write_headers "cupid diting liuqin marble"
 
 # The standard common blobs
 write_makefiles "${MY_DIR}/proprietary-files.txt"
+
+# The split common blobs
+printf '\n%s\n' 'ifneq ($(TARGET_NO_NFC),true)' >> "$PRODUCTMK"
+write_makefiles "${MY_DIR}/proprietary-files-nfc.txt" true
+printf '%s\n' 'endif' >> "$PRODUCTMK"
+
+printf '\n%s\n' 'ifneq ($(TARGET_NO_TELEPHONY),true)' >> "$PRODUCTMK"
+write_makefiles "${MY_DIR}/proprietary-files-phone.txt" true
+printf '%s\n' 'endif' >> "$PRODUCTMK"
 
 # Finish
 write_footers
