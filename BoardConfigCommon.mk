@@ -44,12 +44,17 @@ TARGET_CAMERA_SERVICE_EXT_LIB := //$(COMMON_PATH):libcameraservice_extension.xia
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(HARDWARE_PATH)/vintf/xiaomi_framework_compatibility_matrix.xml
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/hidl/manifest.xml
+ifneq ($(TARGET_NO_TELEPHONY),true)
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/hidl/manifest_phone.xml
+endif
+ifneq ($(TARGET_NO_NFC),true)
 ifeq ($(TARGET_NFC_SKU),)
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/configs/hidl/manifest_nfc.xml
 else
 ODM_MANIFEST_SKUS += $(TARGET_NFC_SKU)
 $(foreach sku, $(call to-upper, $(TARGET_NFC_SKU)), \
     $(eval ODM_MANIFEST_$(sku)_FILES := $(COMMON_PATH)/configs/hidl/manifest_nfc.xml))
+endif
 endif
 
 # Kernel

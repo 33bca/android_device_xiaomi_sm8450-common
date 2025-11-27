@@ -198,8 +198,10 @@ PRODUCT_SYSTEM_PROPERTIES += \
     persist.sys.fuse.passthrough.enable=true
 
 # GPS
+ifneq ($(TARGET_NO_TELEPHONY),true)
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps.conf
+endif
 
 # Health
 $(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,false)
@@ -224,11 +226,13 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/ueventd.rc:$(TARGET_COPY_OUT_ODM)/etc/ueventd.rc
 
 # IR
+ifneq ($(TARGET_NO_IR),true)
 PRODUCT_PACKAGES += \
     android.hardware.ir-service.xiaomi
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.consumerir.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.consumerir.xml
+endif
 
 # Keymaster
 PRODUCT_COPY_FILES += \
@@ -279,6 +283,7 @@ PRODUCT_PACKAGES += \
     IFAAService
 
 # NFC
+ifneq ($(TARGET_NO_NFC),true)
 PRODUCT_PACKAGES += \
     NfcNci \
     Tag \
@@ -301,6 +306,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.se.omapi.ese.xml:$(NFC_PERMISSIONS_DIR)/android.hardware.se.omapi.ese.xml \
     frameworks/native/data/etc/com.android.nfc_extras.xml:$(NFC_PERMISSIONS_DIR)/com.android.nfc_extras.xml \
     frameworks/native/data/etc/com.nxp.mifare.xml:$(NFC_PERMISSIONS_DIR)/com.nxp.mifare.xml
+endif
 
 # Namespaces
 PRODUCT_SOONG_NAMESPACES += \
@@ -345,17 +351,22 @@ TARGET_COMMON_QTI_COMPONENTS := \
     av \
     bt \
     display \
-    gps \
     init \
     media \
     overlay \
     perf \
-    telephony \
     usb \
     wfd \
     wlan
 
+ifneq ($(TARGET_NO_TELEPHONY),true)
+TARGET_COMMON_QTI_COMPONENTS += \
+    gps \
+    telephony
+endif
+
 # Radio
+ifneq ($(TARGET_NO_TELEPHONY),true)
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.data.iwlan.enable=true \
     persist.vendor.radio.add_power_save=1 \
@@ -365,10 +376,13 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 PRODUCT_PACKAGES += \
     qcrilNrDb_vendor
+endif
 
 # Secure element
+ifneq ($(TARGET_NO_TELEPHONY),true)
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml
+endif
 
 # Sensors
 PRODUCT_PACKAGES += \
@@ -402,7 +416,9 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.verified_boot.xml
 
 # Vibrator
+ifneq ($(TARGET_NO_VIBRATOR),true)
 $(call inherit-product, hardware/xiaomi/aidl/vibrator/vibrator-vendor-product.mk)
+endif
 
 # Wi-Fi
 PRODUCT_PACKAGES += \

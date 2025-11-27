@@ -10,6 +10,7 @@
 
 - Xiaomi 12 (cupid)
 - Redmi K50 Ultra / Xiaomi 12T Pro (diting)
+- Xiaomi Pad 6 Pro (liuqin)
 - POCO F5 / Redmi Note 12 Turbo (marble)
 
 ## Copyright
